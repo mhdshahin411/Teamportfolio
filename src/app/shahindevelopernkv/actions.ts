@@ -4,9 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
-import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import crypto from "node:crypto";
+import { supabaseAdmin, STORAGE_BUCKET } from "@/lib/supabase";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -435,20 +434,29 @@ export async function uploadPhoto(formData: FormData) {
   const file = formData.get("file") as File | null;
   if (!file) throw new Error("No file provided");
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  if (!supabaseAdmin) {
+    throw new Error(
+      "Supabase Storage is not configured. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY."
+    );
+  }
 
-  const ext = file.name.split(".").pop() || "jpg";
+  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const filename = `${crypto.randomUUID()}.${ext}`;
-  const uploadDir = join(process.cwd(), "public", "uploads");
+  const bytes = await file.arrayBuffer();
 
-  // Ensure the uploads directory exists
-  const { mkdir } = await import("node:fs/promises");
-  await mkdir(uploadDir, { recursive: true });
+  const { error } = await supabaseAdmin.storage
+    .from(STORAGE_BUCKET)
+    .upload(filename, bytes, {
+      contentType: file.type || "image/jpeg",
+      upsert: true,
+    });
 
-  const filepath = join(uploadDir, filename);
-  await writeFile(filepath, buffer);
+  if (error) throw new Error(`Upload failed: ${error.message}`);
+
+  const { data } = supabaseAdmin.storage
+    .from(STORAGE_BUCKET)
+    .getPublicUrl(filename);
 
   revalidate();
-  return `/uploads/${filename}`;
+  return data.publicUrl;
 }

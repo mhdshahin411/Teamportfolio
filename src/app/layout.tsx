@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { profile } from "@/lib/data";
 
@@ -123,6 +124,7 @@ export default function RootLayout({
           Skip to content
         </a>
         {children}
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}

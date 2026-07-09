@@ -39,7 +39,7 @@ interface ProfileData {
 }
 
 export default function Hero({ profile }: { profile: ProfileData }) {
-  const year = new Date().getFullYear();
+  const year = 2020;
   const initials = profile.name
     .split(/\s+/)
     .map((w) => w[0])

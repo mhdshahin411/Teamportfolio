@@ -378,14 +378,6 @@ export default async function Home() {
               </div>
 
               <div className="mono mt-14 flex flex-wrap items-center gap-x-10 gap-y-3 text-xs uppercase tracking-wider text-faint">
-                <a
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 transition-colors hover:text-accent"
-                >
-                  <LinkedInIcon width={14} height={14} /> LinkedIn
-                </a>
                 <span>{profile.location}</span>
               </div>
             </Reveal>
@@ -396,7 +388,15 @@ export default async function Home() {
         <footer className="border-t border-white/30 bg-white/20 backdrop-blur-md">
           <div className="mono mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-10 text-xs uppercase tracking-wider text-faint sm:flex-row sm:px-6">
             <p>Mohamed Shahin M</p>
-            <p>© {new Date().getFullYear()} — Built with Next.js</p>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 transition-colors hover:text-accent"
+            >
+              <LinkedInIcon width={14} height={14} /> LinkedIn
+            </a>
+            <p>© 2020 — Built with Next.js</p>
           </div>
         </footer>
       </main>

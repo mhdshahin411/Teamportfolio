@@ -446,6 +446,19 @@ body {
   animation-play-state: paused;
 }
 
+/* Navbar per-letter drop-in — each letter falls from above and settles */
+.nav-letter {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  animation: letterDrop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes letterDrop {
+  0% { opacity: 0; transform: translateY(-1.1em) rotate(-12deg); }
+  70% { opacity: 1; transform: translateY(0.12em) rotate(3deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
 /* Scroll-reveal, skill-card and stagger animations intentionally play for
    all visitors regardless of the reduced-motion preference (site owner's
    choice). Only instant-scroll is honored for reduced motion. */

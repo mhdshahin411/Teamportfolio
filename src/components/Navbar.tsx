@@ -48,11 +48,28 @@ export default function Navbar() {
       >
         <a
           href="#top"
+          aria-label="Mohamed Shahin"
           className={`font-[family-name:var(--font-display)] text-base font-bold tracking-tight ${
             scrolled ? "text-foreground" : "text-white"
           }`}
         >
-          Mohamed Shahin<span className="text-accent">.</span>
+          {"Mohamed Shahin".split("").map((ch, i) => (
+            <span
+              key={i}
+              aria-hidden="true"
+              className="nav-letter"
+              style={{ animationDelay: `${i * 55}ms` }}
+            >
+              {ch}
+            </span>
+          ))}
+          <span
+            aria-hidden="true"
+            className="nav-letter text-accent"
+            style={{ animationDelay: `${"Mohamed Shahin".length * 55}ms` }}
+          >
+            .
+          </span>
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">

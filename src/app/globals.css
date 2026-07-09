@@ -56,12 +56,22 @@ html {
   scroll-padding-top: 6rem;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* Contain horizontal slide-in reveals so their pre-animation offset
+   (translateX ±60px) can't expand the page width on narrow screens. */
+main {
+  overflow-x: clip;
 }
 
 /* Soft ambient gradient behind all content */
